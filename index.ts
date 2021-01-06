@@ -211,3 +211,25 @@ class BarOpenIncreasing {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    animator : Animator = new Animator()
+    boi : BarOpenIncreasing = new BarOpenIncreasing()
+
+    render(context : CanvasRenderingContext2D) {
+        this.boi.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.boi.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.boi.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
